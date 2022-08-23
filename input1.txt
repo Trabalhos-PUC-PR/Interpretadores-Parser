@@ -1,0 +1,4 @@
+3
+( a \rightarrow b )
+( b \rightarrow a )
+( T F )
