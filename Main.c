@@ -4,7 +4,7 @@
 #include <string.h>
 
 #define stringMaxSize 512
-static char operators[] = {'T', 'F', '-', '^', 'v', '>', '=', '(', ')'};
+static char *operators[9] = {"T", "F", "\\rightarrow", "\\land", "\\lor", "\\rightarrow", "\\leftrightarrow", "(", ")"};
 static int opQuantity = sizeof(operators) / sizeof(operators[0]);
 
 typedef enum
@@ -83,12 +83,12 @@ int main()
             token[strcspn(token, "\n")] = 0;
             for (iterator = 0; iterator < opQuantity; iterator++)
             {
-                char caracter[2] = "\0";
-                caracter[0] = operators[iterator];
-                contains = strcmp(token, caracter);
+                // char caracter[2] = "\0";
+                // caracter[0] = operators[iterator];
+                contains = strcmp(token, operators[iterator]);
                 if (contains == 0)
                 {
-                    printf("token '%s' | op[%d] '%c' contains: %d - ", token, iterator, operators[iterator], contains);
+                    printf("token '%s' | op[%d] '%s' contains: %d ", token, iterator, operators[iterator], contains);
                     break;
                 }
             }
