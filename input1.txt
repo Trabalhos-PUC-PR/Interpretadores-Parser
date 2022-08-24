@@ -1,12 +1,13 @@
-11
+12
 T
 T F
 ( \rightarrow ( T ) F )
-( \lor a b ) \and
-( \not a z )
+( \lor a b ) \land
+( \not a )
 ( \leftrightarrow ( \not a b ) b )
 ( \land ( \rightarrow ( \not a ) ( \not ( \land a y ) ) ) ( \lor a b ) )
 ( \land ( \rightarrow ( \not a ) ( \not ( \land a y ) ) ( \lor a b ) )
 ( \land a b )
-( \and )
-( \not ( \lor a b ) ) 
+( \land )
+( \not ( \lor a b ) )
+( \not ( \rightarrow ( \not ( a ) ) ( \land a b ) ) )
