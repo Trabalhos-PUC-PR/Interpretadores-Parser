@@ -1,5 +1,6 @@
-
 /* André Luiz Kovalski
+
+# TUDO NO ARQUIVO DE INPUT DEVE SER SEPARADO POR ESPAÇOS
 
 Para obter os pontos relativos a este trabalho, você deverá fazer um programa,
 usando a linguagem de programação que desejar, que seja capaz de validar
@@ -47,7 +48,7 @@ o arquivo de testes.
 
 #define stringMaxSize 512
 static char *operators[9] = {
-    "T", "F", "\\not", "\\land", "\\lor", "\\rightarrow", "\\leftrightarrow",
+    "T", "F", "\\neg", "\\land", "\\lor", "\\rightarrow", "\\leftrightarrow",
     "(", ")"};
 static int opQuantity = sizeof(operators) / sizeof(operators[0]);
 
@@ -179,9 +180,10 @@ int main()
             token = strtok(NULL, " ");
         }
 
-        // for(int i = 0 ; i < historyCounter; i++){
-        //     printf("%d ", stateHistory[i]);
-        // }
+        for (int i = 0; i < historyCounter; i++)
+        {
+            printf("%d ", stateHistory[i]);
+        }
 
         if (checkValidation(stateHistory, 0, 0))
         {
@@ -227,7 +229,7 @@ bool checkValidation(parseState stateHistory[], int index, int parCount)
         {
             return checkValidation(stateHistory, index + 1, parCount);
         }
-        if (isSimpleFormula(stateHistory[index + 1]))
+        if (stateHistory[index + 1] == 1 || stateHistory[index + 1] == 2)
         {
             return checkValidation(stateHistory, index + 2, parCount);
         }
@@ -248,7 +250,7 @@ bool checkValidation(parseState stateHistory[], int index, int parCount)
             return checkValidation(stateHistory, index + 3, parCount);
         }
     }
-    if (stateHistory[index] == 5)
+    if (stateHistory[index] == 5 && stateHistory[index + 1] != 6)
     {
         parCount++;
         return checkValidation(stateHistory, index + 1, parCount);
