@@ -180,10 +180,10 @@ int main()
             token = strtok(NULL, " ");
         }
 
-        for (int i = 0; i < historyCounter; i++)
-        {
-            printf("%d ", stateHistory[i]);
-        }
+        // for (int i = 0; i < historyCounter; i++)
+        // {
+        //     printf("%d ", stateHistory[i]);
+        // }
 
         if (checkValidation(stateHistory, 0, 0))
         {
