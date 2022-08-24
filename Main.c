@@ -1,20 +1,21 @@
 
 /* André Luiz Kovalski
 
-Para obter os pontos relativos a este trabalho, você deverá fazer um programa, usando a
-linguagem de programação que desejar, que seja capaz de validar expressões de lógica propisicional
-escritas em latex e definir se são expressões gramaticalmente corretas. Você validará apenas a forma
-da expressão (sintaxe).
+Para obter os pontos relativos a este trabalho, você deverá fazer um programa,
+usando a linguagem de programação que desejar, que seja capaz de validar
+expressões de lógica propisicional escritas em latex e definir se são expressões
+gramaticalmente corretas. Você validará apenas a forma da expressão (sintaxe).
 
-A entrada será fornecida por um arquivo de textos que será carregado em linha de comando,
-com a seguinte formatação:
+A entrada será fornecida por um arquivo de textos que será carregado em linha de
+comando, com a seguinte formatação:
 
-    1. Na primeira linha deste arquivo existe um número inteiro que informa quantas expressões
-lógicas estão no arquivo.
+    1. Na primeira linha deste arquivo existe um número inteiro que informa
+quantas expressões lógicas estão no arquivo.
 
-    2. Cada uma das linhas seguintes contém uma expressão lógica que deve ser validada.
-A saída do seu programa será no terminal padrão do sistema e constituirá de uma linha de saída
-para cada expressão lógica de entrada contendo ou a palavra valida ou a palavra inválida e nada mais.
+    2. Cada uma das linhas seguintes contém uma expressão lógica que deve ser
+validada. A saída do seu programa será no terminal padrão do sistema e
+constituirá de uma linha de saída para cada expressão lógica de entrada contendo
+ou a palavra valida ou a palavra inválida e nada mais.
 
 Gramática:
 Formula=Constante|Proposicao|FormulaUnaria|FormulaBinaria.
@@ -27,23 +28,27 @@ FechaParen=")"
 OperatorUnario="¬"
 OperatorBinario="∨"|"∧"|"→"|"↔"
 
-Cada expressão lógica avaliada pode ter qualquer combinação das operações de negação,
-conjunção, disjunção, implicação e bi-implicação sem limites na combiação de preposições e operações.
+Cada expressão lógica avaliada pode ter qualquer combinação das operações de
+negação, conjunção, disjunção, implicação e bi-implicação sem limites na
+combiação de preposições e operações.
 
-Os valores lógicos True e False estão representados na gramática e, como tal, podem ser usados em
-qualquer expressão de entrada.
+Os valores lógicos True e False estão representados na gramática e, como tal,
+podem ser usados em qualquer expressão de entrada.
 
-Para validar seu trabalho, você deve incluir no repl.it, no mínimo três arquivos contendo
-números diferentes de expressões proposicionais. O professor irá incluir um arquivo de testes extra
-para validar seu trabalho. Para isso, caberá ao professor incluir o arquivo no seu repl.it e rodar o seu
-programa carregando o arquivo de testes.
+Para validar seu trabalho, você deve incluir no repl.it, no mínimo três arquivos
+contendo números diferentes de expressões proposicionais. O professor irá
+incluir um arquivo de testes extra para validar seu trabalho. Para isso, caberá
+ao professor incluir o arquivo no seu repl.it e rodar o seu programa carregando
+o arquivo de testes.
  */
 
 #include <stdio.h>
 #include <string.h>
 
 #define stringMaxSize 512
-static char *operators[9] = {"T", "F", "\\not", "\\land", "\\lor", "\\rightarrow", "\\leftrightarrow", "(", ")"};
+static char *operators[9] = {
+    "T", "F", "\\not", "\\land", "\\lor", "\\rightarrow", "\\leftrightarrow",
+    "(", ")"};
 static int opQuantity = sizeof(operators) / sizeof(operators[0]);
 
 typedef enum
@@ -119,7 +124,7 @@ int main()
             fgets(readString, stringMaxSize, inputFile);
             continue;
         }
-        parseState *stateHistory = malloc(100*sizeof(strlen(readString)));
+        parseState *stateHistory = malloc(100 * sizeof(strlen(readString)));
         int historyCounter = 0;
         char *token = strtok(readString, " ");
         while (token != NULL)
@@ -152,7 +157,7 @@ int main()
 
                     case (7):
                         state = lParentheses;
-                        break; 
+                        break;
 
                     case (8):
                         state = rParentheses;
@@ -178,10 +183,13 @@ int main()
         //     printf("%d ", stateHistory[i]);
         // }
 
-        if (checkValidation(stateHistory, 0, 0)){
-            printf("- válido!", readString);
-        }else{
-            printf("- inválido!", readString);    
+        if (checkValidation(stateHistory, 0, 0))
+        {
+            printf("- válido!");
+        }
+        else
+        {
+            printf("- inválido!");
         }
 
         printf("\n");
@@ -193,56 +201,75 @@ int main()
     return 0;
 }
 
-bool checkValidation(parseState stateHistory[], int index, int parCount){
-    if(stateHistory[index] == 0){
-        // printf("error on %d (i:%d, par:%d)! ", stateHistory[index], index, parCount);
+bool checkValidation(parseState stateHistory[], int index, int parCount)
+{
+    if (stateHistory[index] == 0)
+    {
+        // printf("error on %d (i:%d, par:%d)! ", stateHistory[index], index,
+        // parCount);
         return false;
     }
-    if(stateHistory[index] == 1 && stateHistory[index+1] == 0 && index == 0){
+    if (stateHistory[index] == 1 && stateHistory[index + 1] == 0 && index == 0)
+    {
         return true;
     }
-    if((stateHistory[index] == 1 || stateHistory[index] == 2) && parCount > 0){
-        if(stateHistory[index-1] == 1 || stateHistory[index-1] == 2){
+    if ((stateHistory[index] == 1 || stateHistory[index] == 2) && parCount > 0)
+    {
+        if (stateHistory[index - 1] == 1 || stateHistory[index - 1] == 2)
+        {
             return false;
         }
-        return checkValidation(stateHistory, index+1, parCount);
+        return checkValidation(stateHistory, index + 1, parCount);
     }
-    if(stateHistory[index] == 3){
-        if(stateHistory[index+1] == 5){
-            return checkValidation(stateHistory, index+1, parCount);
+    if (stateHistory[index] == 3)
+    {
+        if (stateHistory[index + 1] == 5)
+        {
+            return checkValidation(stateHistory, index + 1, parCount);
         }
-        if(isSimpleFormula(stateHistory[index+1])){
-            return checkValidation(stateHistory, index+2, parCount);
-        }
-    }
-    if(stateHistory[index] == 4){
-        if(stateHistory[index+1] == 5){
-            return checkValidation(stateHistory, index+1, parCount);
-        }
-        if(stateHistory[index+2] == 5){
-            return checkValidation(stateHistory, index+2, parCount);
-        }
-        if(isSimpleFormula(stateHistory[index+1]) && isSimpleFormula(stateHistory[index+2])){
-            return checkValidation(stateHistory, index+3, parCount);
+        if (isSimpleFormula(stateHistory[index + 1]))
+        {
+            return checkValidation(stateHistory, index + 2, parCount);
         }
     }
-    if(stateHistory[index] == 5){
+    if (stateHistory[index] == 4)
+    {
+        if (stateHistory[index + 1] == 5)
+        {
+            return checkValidation(stateHistory, index + 1, parCount);
+        }
+        if (stateHistory[index + 2] == 5)
+        {
+            return checkValidation(stateHistory, index + 2, parCount);
+        }
+        if (isSimpleFormula(stateHistory[index + 1]) &&
+            isSimpleFormula(stateHistory[index + 2]))
+        {
+            return checkValidation(stateHistory, index + 3, parCount);
+        }
+    }
+    if (stateHistory[index] == 5)
+    {
         parCount++;
-        return checkValidation(stateHistory, index+1, parCount);
+        return checkValidation(stateHistory, index + 1, parCount);
     }
-    if(stateHistory[index] == 6){
+    if (stateHistory[index] == 6)
+    {
         parCount--;
-        if(stateHistory[index+1] == 0 && parCount == 0){
+        if (stateHistory[index + 1] == 0 && parCount == 0)
+        {
             return true;
         }
-        return checkValidation(stateHistory, index+1, parCount);
+        return checkValidation(stateHistory, index + 1, parCount);
     }
     // printf("not on %d (i:%d, par:%d)! ", stateHistory[index], index, parCount);
     return false;
 }
 
-bool isSimpleFormula(parseState state){
-    if(state >= 1 || state <= 4){
+bool isSimpleFormula(parseState state)
+{
+    if (state >= 1 || state <= 4)
+    {
         return true;
     }
     return false;
